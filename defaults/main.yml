@@ -12,5 +12,12 @@ gitlab_runner_description: '{{ ansible_hostname }}'
 gitlab_runner_executor: 'shell'
 # Default Docker image
 gitlab_runner_docker_image: ''
+gitlab_runner_docker_volumes: []
 # Runner tags
 gitlab_runner_tags: []
+# ssh
+gitlab_runner_ssh_user: ''
+gitlab_runner_ssh_host: ''
+gitlab_runner_ssh_port: ''
+gitlab_runner_ssh_password: ''
+gitlab_runner_ssh_identity_file: ''

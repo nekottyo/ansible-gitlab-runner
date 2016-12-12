@@ -24,6 +24,12 @@
     state: present
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
 
+- name: Add GitLab Runner apt repo
+  apt_repository:
+    repo: 'deb https://packages.gitlab.com/runner/gitlab-ci-multi-runner/{{ ansible_distribution | lower }}/ {{ ansible_distribution_major_version }} main'
+    state: present
+  when: (ansible_distribution == "Debian")
+
 - name: Install GitLab Runner
   apt:
     name: gitlab-ci-multi-runner
