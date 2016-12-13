@@ -38,7 +38,13 @@ The default Docker image to use. Required when executor is `docker`.
 The tags assigned to the runner,
 Defaults to an empty list.
 
-See the [config for more options](https://github.com/riemers/ansible-gitlab-runner/blob/master/tasks/register-runner.yml)
+`gitlab_runner_list`
+You can add multiple runners in one run. It is a list of dict based on the settings available in one runner. You must set different descriptions for the runners to work.
+
+# NOTE:
+Runners are created for the first time. You can't change the settings of existsing ones with this role.
+
+See the [config for more options](https://github.com/DBLaci/ansible-gitlab-runner/blob/master/tasks/register-runner.yml)
 
 Example Playbook
 ----------------

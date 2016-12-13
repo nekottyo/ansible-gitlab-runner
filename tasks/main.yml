@@ -12,4 +12,3 @@
 
 - name: Register GitLab Runner
   include: register-runner.yml
-  when: gitlab_runner_registration_token != ''
