@@ -16,6 +16,10 @@ Role Variables
 The maximum number of jobs to run concurrently.
 Defaults to the number of processor cores.
 
+`gitlab_check_interval`
+The interval of job poll in seconds
+Defaults to the upstream default (3 seconds)
+
 `gitlab_runner_registration_token`
 The GitLab registration token. If this is specified, a runner will be registered to a GitLab server.
 
