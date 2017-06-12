@@ -13,5 +13,4 @@
     regexp: ^check_interval =
     line: check_interval = {{ gitlab_runner_check_interval }}
     state: present
-  when: "{{ gitlab_runner_check_interval }}"
-  
+  when: gitlab_runner_check_interval
