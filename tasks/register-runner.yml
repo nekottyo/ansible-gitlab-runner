@@ -19,7 +19,7 @@
     --ssh-port '{{gitlab_runner_ssh_port}}'
     --ssh-password '{{gitlab_runner_ssh_password}}'
     --ssh-identity-file '{{gitlab_runner_ssh_identity_file}}'
-  when: gitlab_runner_registration_token != '' and configured_runners.stderr.find('\n{{ gitlab_runner_description }}') == -1
+  when: gitlab_runner_registration_token != '' and configured_runners.stderr.find('\n%s' % gitlab_runner_description) == -1
 
 - name: Register multiple runner to GitLab
   command: gitlab-runner register >

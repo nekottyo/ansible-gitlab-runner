@@ -27,3 +27,4 @@
     name: gitlab-ci-multi-runner
     state: latest
     update_cache: yes
+  tags: skip_ansible_lint
