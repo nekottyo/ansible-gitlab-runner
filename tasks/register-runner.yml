@@ -36,5 +36,5 @@
     --ssh-port '{{ item.ssh_port | d("") }}'
     --ssh-password '{{ item.ssh_password | d("") }}'
     --ssh-identity-file '{{ item.identity_file | d("") }}'
-  when: configured_runners.stderr.find('\n{{ item.description }}') == -1
+  when: configured_runners.stderr.find('\n%s' % item.description) == -1
   with_items: "{{ gitlab_runner_list }}"
