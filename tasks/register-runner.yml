@@ -10,6 +10,7 @@
     --url '{{ gitlab_runner_coordinator_url }}'
     --registration-token '{{ gitlab_runner_registration_token }}'
     --description '{{ gitlab_runner_description }}'
+    --limit '{{ gitlab_runner_limit }}'
     --tag-list '{{ gitlab_runner_tags | join(",") }}'
     --executor '{{ gitlab_runner_executor }}'
     --docker-image '{{ gitlab_runner_docker_image }}'
@@ -19,7 +20,7 @@
     --ssh-port '{{gitlab_runner_ssh_port}}'
     --ssh-password '{{gitlab_runner_ssh_password}}'
     --ssh-identity-file '{{gitlab_runner_ssh_identity_file}}'
-  when: gitlab_runner_registration_token != '' and configured_runners.stderr.find('\n%s' % gitlab_runner_description) == -1
+  when: gitlab_runner_registration_token != '' and configured_runners.stderr.find('\n%s ' % gitlab_runner_description) == -1
 
 - name: Register multiple runner to GitLab
   command: gitlab-runner register >
@@ -27,6 +28,7 @@
     --url '{{ item.coordinator_url | d("https://gitlab.com/ci") }}'
     --registration-token '{{ item.registration_token }}'
     --description '{{ item.description }}'
+    --limit '{{ item.limit | d("") }}'
     --tag-list '{{ item.tags | d([]) | join(",") }}'
     --executor '{{ item.executor | d("shell") }}'
     --docker-image '{{ item.docker_image | d("") }}'
@@ -36,5 +38,5 @@
     --ssh-port '{{ item.ssh_port | d("") }}'
     --ssh-password '{{ item.ssh_password | d("") }}'
     --ssh-identity-file '{{ item.identity_file | d("") }}'
-  when: configured_runners.stderr.find('\n%s' % item.description) == -1
+  when: configured_runners.stderr.find('\n%s ' % item.description) == -1
   with_items: "{{ gitlab_runner_list }}"
