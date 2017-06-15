@@ -31,6 +31,10 @@ Defaults to `https://gitlab.com/ci`.
 The description of the runner.
 Defaults to the hostname.
 
+`gitlab_runner_limit`
+The per-registration-token limit on concurrent builds
+Defaults to `0`.
+
 `gitlab_runner_executor`
 The executor used by the runner.
 Defaults to `shell`.
@@ -65,6 +69,7 @@ Inside `vars/main.yml`
 ```yaml
 gitlab_runner_registration_token: 'HUzTMgnxk17YV8Rj8ucQ'
 gitlab_runner_description: 'Example GitLab Runner'
+gitlab_runner_limit: 2
 gitlab_runner_tags:
   - node
   - ruby
