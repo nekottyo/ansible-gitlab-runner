@@ -1,7 +1,7 @@
 ---
 - name: Add GitLab apt key
   apt_key:
-    url: https://packages.gitlab.com/gpg.key
+    url: https://packages.gitlab.com/runner/gitlab-runner/gpgkey
     state: present
 
 - name: Install GitLab Runner dependencies
@@ -14,19 +14,19 @@
 
 - name: Add GitLab Runner apt repo (Ubuntu)
   apt_repository:
-    repo: 'deb https://packages.gitlab.com/runner/gitlab-ci-multi-runner/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} main'
+    repo: 'deb https://packages.gitlab.com/runner/gitlab-runner/{{ ansible_distribution | lower }}/ {{ ansible_distribution_release }} main'
     state: present
   when: (ansible_distribution == "Ubuntu")
 
 - name: Add GitLab Runner apt repo
   apt_repository:
-    repo: 'deb https://packages.gitlab.com/runner/gitlab-ci-multi-runner/{{ ansible_distribution | lower }}/ {{ ansible_distribution_major_version }} main'
+    repo: 'deb https://packages.gitlab.com/runner/gitlab-runner/{{ ansible_distribution | lower }}/ {{ ansible_distribution_major_version }} main'
     state: present
   when: (ansible_distribution == "Debian")
 
 - name: Install GitLab Runner
   apt:
-    name: gitlab-ci-multi-runner
+    name: gitlab-runner
     state: latest
     update_cache: yes
   tags: skip_ansible_lint

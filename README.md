@@ -1,8 +1,16 @@
-GitLab Runner [![Build Status](https://api.travis-ci.org/riemers/ansible-gitlab-runner.svg?branch=master)](https://travis-ci.org/riemers/ansible-gitlab-runner) [![Ansible Role](https://img.shields.io/badge/role-riemers.gitlab--runner-blue.svg?maxAge=2592000)](https://galaxy.ansible.com/riemers/gitlab-runner/)
+GitLab Runner [![Build Status](https://api.travis-ci.org/eRadical/ansible-gitlab-runner.svg?branch=master)](https://travis-ci.org/eRadical/ansible-gitlab-runner) [![Ansible Role](https://img.shields.io/badge/role-eRadical.gitlab--runner-blue.svg?maxAge=2592000)](https://galaxy.ansible.com/eRadical/gitlab-runner/)
 =============
 
-This role will install the [official GitLab Runner](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner)
-(fork from haroldb) with updates. Needed something simple and working, this did the trick for me. Open for changes though.
+This role will install the [official GitLab Runner](https://gitlab.com/gitlab-org/gitlab-runner)
+(fork from [DBLaci](https://github.com/DBLaci/ansible-gitlab-runner), which forked it from [riemers](https://github.com/riemers/ansible-gitlab-runner), which in turn forked it from [haroldb](https://github.com/haroldb/ansible-gitlab-runner)) with updates. Needed something simple and working, this did the trick for me. Open for changes though.
+
+# NOTE:
+Even though it's a fork it is *NOT* backward compatible:
+- it will only install gitlab-runner (all "gitlab-multi-runner" references were scraped)
+- all per-runner global variables were removed
+- there is no "default runner"
+- there is a list of runner to be configured (1 machine can have more than 1 runner... *be bold*)
+
 
 Requirements
 ------------
@@ -20,61 +28,44 @@ Defaults to the number of processor cores.
 The interval of job poll in seconds
 Defaults to the upstream default (3 seconds)
 
-`gitlab_runner_registration_token`
-The GitLab registration token. If this is specified, a runner will be registered to a GitLab server.
-
-`gitlab_runner_coordinator_url`
-The GitLab coordinator URL.
-Defaults to `https://gitlab.com/ci`.
-
-`gitlab_runner_description`
-The description of the runner.
-Defaults to the hostname.
-
-`gitlab_runner_limit`
-The per-registration-token limit on concurrent builds
-Defaults to `0`.
-
-`gitlab_runner_executor`
-The executor used by the runner.
-Defaults to `shell`.
-
-`gitlab_runner_docker_image`
-The default Docker image to use. Required when executor is `docker`.
-
-`gitlab_runner_tags`
-The tags assigned to the runner,
-Defaults to an empty list.
-
 `gitlab_runner_list`
-You can add multiple runners in one run. It is a list of dict based on the settings available in one runner. You must set different descriptions for the runners to work.
+This list will hold the multiple runners. It is a list of dict based on the settings available in one runner. You must set different descriptions for the runners to work.
 
 # NOTE:
 Runners are created for the first time. You can't change the settings of existsing ones with this role.
 
-See the [config for more options](https://github.com/DBLaci/ansible-gitlab-runner/blob/master/tasks/register-runner.yml)
+See the [config for more options](https://github.com/eRadical/ansible-gitlab-runner/blob/master/tasks/register-runner.yml)
 
 Example Playbook
 ----------------
 ```yaml
 - hosts: all
   remote_user: root
-  vars_files:
-    - vars/main.yml
   roles:
-    - { role: riemers.gitlab-runner }
+    - eRadical.gitlab-runner
 ```
 
-Inside `vars/main.yml`
+Inside `group_vars/gitlab-runners.yml`
 ```yaml
-gitlab_runner_registration_token: 'HUzTMgnxk17YV8Rj8ucQ'
-gitlab_runner_description: 'Example GitLab Runner'
-gitlab_runner_limit: 2
-gitlab_runner_tags:
-  - node
-  - ruby
-  - mysql
-gitlab_runner_docker_volumes:
-  - "/var/run/docker.sock:/var/run/docker.sock"
-  - "/cache"
+gitlab_runner_concurrent: 1
+gitlab_check_interval: 3
+gitlab_runner_list:
+- coordinator_url: 'https://your.gitlab.installation/ci'
+  registration_token: ''
+  description: '{{ ansible_hostname }}__shell'
+  executor: 'shell'
+  tags:
+  - shell
+  - bash
+- coordinator_url: 'https://your.gitlab.installation/ci'
+  registration_token: ''
+  description: '{{ ansible_hostname }}__docker'
+  executor: 'docker'
+  docker_image: "centos:latest"
+  docker_tlsverify: "false"
+  docker_pull_policy: "always"
+  docker_privileged: "true"
+  tags:
+  - docker
+  - container
 ```
