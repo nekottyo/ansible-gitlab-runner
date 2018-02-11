@@ -46,7 +46,8 @@ Example Playbook
 ```
 
 Example for requirements.yml
-```- name: eRadical.gitlab-runner
+```yaml
+- name: eRadical.gitlab-runner
   src: https://github.com/eRadical/ansible-gitlab-runner
   scm: git
   version: commit_id_here
