@@ -1,4 +1,4 @@
-GitLab Runner [![Build Status](https://api.travis-ci.org/eRadical/ansible-gitlab-runner.svg?branch=master)](https://travis-ci.org/eRadical/ansible-gitlab-runner) [![Ansible Role](https://img.shields.io/badge/role-eRadical.gitlab--runner-blue.svg?maxAge=2592000)](https://galaxy.ansible.com/eRadical/gitlab-runner/)
+GitLab Runner [![Build Status](https://api.travis-ci.org/eRadical/ansible-gitlab-runner.svg?branch=master)](https://travis-ci.org/eRadical/ansible-gitlab-runner) [![Ansible Role](https://img.shields.io/badge/role-eRadical.ansible-gitlab--runner-blue.svg?maxAge=2592000)](https://galaxy.ansible.com/eRadical/ansible-gitlab-runner/)
 =============
 
 This role will install the [official GitLab Runner](https://gitlab.com/gitlab-org/gitlab-runner)
