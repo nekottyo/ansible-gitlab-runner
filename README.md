@@ -39,13 +39,20 @@ See the [config for more options](https://github.com/eRadical/ansible-gitlab-run
 Example Playbook
 ----------------
 ```yaml
-- hosts: all
-  remote_user: root
+- hosts: runner_hosts
+  become: yes
   roles:
     - eRadical.gitlab-runner
 ```
 
-Inside `group_vars/gitlab-runners.yml`
+Example for requirements.yml
+```- name: eRadical.gitlab-runner
+  src: https://github.com/eRadical/ansible-gitlab-runner
+  scm: git
+  version: commit_id_here
+```
+
+Inside `group_vars/runner_hosts.yml`
 ```yaml
 gitlab_runner_concurrent: 1
 gitlab_check_interval: 3
