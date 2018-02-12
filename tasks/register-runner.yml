@@ -5,22 +5,24 @@
   changed_when: False
 
 - name: Register multiple runner to GitLab
-  command: gitlab-runner register >
+  command: >
+    gitlab-runner register
     --non-interactive
     --url '{{ item.coordinator_url | d("https://your.gitlab.installation/ci") }}'
     --registration-token '{{ item.registration_token }}'
     --description '{{ item.description }}'
-    --limit '{{ item.limit | d("") }}'
+    --limit '{{ item.limit | d("0") }}'
     --tag-list '{{ item.tags | d([]) | join(",") }}'
     --executor '{{ item.executor | d("shell") }}'
     --run-untagged=true
     --locked=false
     --request-concurrency 1
-    --shell bash
-    --docker-image '{{ item.docker_image | d("") }}'
-    --docker-tlsverify '{{ item.docker_tlsverify | d("false") }}'
+    {% if item.executor == 'docker' %}
+    --docker-image "{{ item.docker_image }}"
+    --docker-tlsverify='{{ item.docker_tlsverify | d("false") }}'
     --docker-pull-policy '{{ item.docker_pull_policy | d("always") }}'
     --docker-privileged '{{ item.docker_privileged | d("true") }}'
     --docker-volumes [ "{{ item.docker_volumes | d([]) | join('", "') }}" ]
+    {% endif %}
   when: configured_runners.stderr is not defined or configured_runners.stderr.find('\n%s ' % item.description) == -1
   with_items: "{{ gitlab_runner_list }}"
